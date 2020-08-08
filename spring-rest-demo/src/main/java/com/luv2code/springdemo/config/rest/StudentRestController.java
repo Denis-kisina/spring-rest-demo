@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +19,7 @@ public class StudentRestController {
 	private List<Student> theStudents;
 
 //	define @Postconstruct to load student data once
+
 	@PostConstruct
 	public void loadData() {
 		theStudents = new ArrayList<>();
@@ -37,6 +35,7 @@ public class StudentRestController {
 		return theStudents;
 
 	}
+
 //	define end point for "/student/{studentId}" - return student at index
 
 	@GetMapping("/students/{studentId}")
@@ -48,32 +47,6 @@ public class StudentRestController {
 
 		return theStudents.get(studentId);
 
-	}
-
-//	add exception handler 
-
-	@ExceptionHandler
-	public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException exc) {
-//		create a student error response message
-		StudentErrorResponse studentErrorResponse = new StudentErrorResponse();
-
-		studentErrorResponse.setStatus(HttpStatus.NOT_FOUND.value());
-		studentErrorResponse.setMessage(exc.getMessage());
-		studentErrorResponse.setTimeStamp(System.currentTimeMillis());
-
-		return new ResponseEntity<>(studentErrorResponse, HttpStatus.NOT_FOUND);
-	}
-
-	@ExceptionHandler
-	public ResponseEntity<StudentErrorResponse> handleException(Exception exc) {
-
-		StudentErrorResponse studentErrorResponse = new StudentErrorResponse();
-
-		studentErrorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-		studentErrorResponse.setMessage(exc.getMessage());
-		studentErrorResponse.setTimeStamp(System.currentTimeMillis());
-
-		return new ResponseEntity<>(studentErrorResponse, HttpStatus.BAD_REQUEST);
 	}
 
 }
