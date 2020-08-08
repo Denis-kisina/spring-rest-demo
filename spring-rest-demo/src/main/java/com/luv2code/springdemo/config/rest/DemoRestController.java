@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class DemoRestController {
 
-	// add code for the /hello endpoint
+	// add code for the /hello end point
 
 	@GetMapping("/hello")
 	public String sayHello() {
